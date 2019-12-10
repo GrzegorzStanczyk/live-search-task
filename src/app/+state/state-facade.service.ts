@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, ReplaySubject } from 'rxjs';
+import { of, defer, Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { mapByFilter, mapBySearch, mapByOrder } from './pipe-helpers';
 
@@ -21,7 +21,7 @@ export interface SearchFormData {
   providedIn: 'root'
 })
 export class StateFacadeService {
-  private source = new ReplaySubject<SearchFormData>();
+  private source: Observable<SearchFormData>;
   private readonly list = of(
     ['image', 'document', 'video', 'audio'].reduce((prev, curr) => {
       const typeList = new Array(5).fill(undefined).map((v, i) => curr + i);
@@ -30,15 +30,17 @@ export class StateFacadeService {
   );
 
   public filters: Filters[] = ['all', 'image', 'document', 'video', 'audio'];
-  public itemsList$ = this.source.pipe(
-    withLatestFrom(this.list),
-    mapByFilter,
-    mapBySearch,
-    mapByOrder,
-    map(([, list]) => list)
+  public itemsList$ = defer(() =>
+    this.source.pipe(
+      withLatestFrom(this.list),
+      mapByFilter,
+      mapBySearch,
+      mapByOrder,
+      map(([, list]) => list)
+    )
   );
 
-  public setFormData(formData: SearchFormData): void {
-    this.source.next(formData);
+  public setSource(source: Observable<SearchFormData>) {
+    this.source = source;
   }
 }
