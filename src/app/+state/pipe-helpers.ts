@@ -13,5 +13,9 @@ export const mapBySearch = map(([form, list]: [SearchFormData, string[]]) => [
 
 export const mapByOrder = map(([form, list]: [SearchFormData, string[]]) => [
   form,
-  list.sort((a, b) => (a > b ? form.order : a < b ? -form.order : 0))
+  !!form.order
+    ? list
+        .slice()
+        .sort((a, b) => (a > b ? form.order : a < b ? -form.order : 0))
+    : list
 ]);

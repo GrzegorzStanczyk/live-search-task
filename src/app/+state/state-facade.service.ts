@@ -7,6 +7,7 @@ type Filters = 'all' | 'image' | 'document' | 'video' | 'audio';
 
 export enum SortOrder {
   Descending = -1,
+  None = 0,
   Ascending = 1
 }
 

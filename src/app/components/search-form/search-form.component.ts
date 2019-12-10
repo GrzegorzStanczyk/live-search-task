@@ -18,7 +18,7 @@ export class SearchFormComponent implements OnDestroy {
   private readonly initialForm: SearchFormData = {
     search: '',
     filter: 'all',
-    order: SortOrder.Ascending
+    order: SortOrder.None
   };
 
   public sortOrder = SortOrder;
