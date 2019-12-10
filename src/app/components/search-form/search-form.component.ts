@@ -18,16 +18,16 @@ export class SearchFormComponent implements OnDestroy {
   private readonly initialForm: SearchFormData = {
     search: '',
     filter: 'all',
-    order: SortOrder.Descending
+    order: SortOrder.Ascending
   };
+
+  public sortOrder = SortOrder;
+  public filters = this.state.filters;
   public searchForm = this.fb.group({
     search: this.initialForm.search,
     filter: [this.initialForm.filter, Validators.required],
     order: [this.initialForm.order, Validators.required]
   });
-
-  public sortOrder = SortOrder;
-  public filters = this.state.filters;
 
   constructor(private fb: FormBuilder, private state: StateFacadeService) {
     this.searchForm.valueChanges

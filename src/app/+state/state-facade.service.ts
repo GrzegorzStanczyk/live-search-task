@@ -6,8 +6,8 @@ import { mapByFilter, mapBySearch, mapByOrder } from './pipe-helpers';
 type Filters = 'all' | 'image' | 'document' | 'video' | 'audio';
 
 export enum SortOrder {
-  Descending,
-  Ascending
+  Descending = -1,
+  Ascending = 1
 }
 
 export interface SearchFormData {
@@ -20,6 +20,7 @@ export interface SearchFormData {
   providedIn: 'root'
 })
 export class StateFacadeService {
+  private source = new ReplaySubject<SearchFormData>();
   private readonly list = of(
     ['image', 'document', 'video', 'audio'].reduce((prev, curr) => {
       const typeList = new Array(5).fill(undefined).map((v, i) => curr + i);
@@ -27,8 +28,7 @@ export class StateFacadeService {
     }, [])
   );
 
-  private source = new ReplaySubject<SearchFormData>();
-
+  public filters: Filters[] = ['all', 'image', 'document', 'video', 'audio'];
   public itemsList$ = this.source.pipe(
     withLatestFrom(this.list),
     mapByFilter,
@@ -36,7 +36,6 @@ export class StateFacadeService {
     mapByOrder,
     map(([, list]) => list)
   );
-  public filters: Filters[] = ['all', 'image', 'document', 'video', 'audio'];
 
   public setFormData(formData: SearchFormData): void {
     this.source.next(formData);

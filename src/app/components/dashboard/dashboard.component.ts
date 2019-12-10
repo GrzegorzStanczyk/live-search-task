@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { StateFacadeService } from 'src/app/+state/state-facade.service';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',

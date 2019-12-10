@@ -1,19 +1,17 @@
 import { map } from 'rxjs/operators';
 import { SearchFormData } from './state-facade.service';
 
-export const mapByFilter = map(([state, list]: [SearchFormData, string[]]) => [
-  state,
-  state.filter === 'all'
-    ? list
-    : list.filter(item => item.includes(state.filter))
+export const mapByFilter = map(([form, list]: [SearchFormData, string[]]) => [
+  form,
+  form.filter === 'all' ? list : list.filter(item => item.includes(form.filter))
 ]);
 
-export const mapBySearch = map(([state, list]: [SearchFormData, string[]]) => [
-  state,
-  list.filter(item => item.includes(state.search))
+export const mapBySearch = map(([form, list]: [SearchFormData, string[]]) => [
+  form,
+  list.filter(item => item.includes(form.search))
 ]);
 
-export const mapByOrder = map(([state, list]: [SearchFormData, string[]]) => [
-  state,
-  !!state.order ? list.sort() : list.sort().reverse()
+export const mapByOrder = map(([form, list]: [SearchFormData, string[]]) => [
+  form,
+  list.sort((a, b) => (a > b ? form.order : a < b ? -form.order : 0))
 ]);
