@@ -1,0 +1,52 @@
+<form [formGroup]="searchForm" novalidate>
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Search Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Search" formControlName="search" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Filter" formControlName="filter">
+              <mat-option *ngFor="let filter of filters" [value]="filter">
+                {{ filter }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="searchForm.controls['filter'].hasError('required')"
+            >
+              Filter is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Sort" formControlName="order">
+              <mat-option [value]="sortOrder.Ascending"> Ascending </mat-option>
+              <mat-option [value]="sortOrder.Descending">
+                Descending
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="searchForm.controls['filter'].hasError('required')"
+            >
+              Filter is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="button" (click)="reset()">
+        Reset
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
